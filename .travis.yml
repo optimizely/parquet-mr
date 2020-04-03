@@ -4,7 +4,6 @@ before_install:
 
 jdk:
   - openjdk8
-  - openjdk11
 
 env:
   - HADOOP_PROFILE=default TEST_CODECS=uncompressed,brotli
