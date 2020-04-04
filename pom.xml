@@ -67,6 +67,7 @@
   </developers>
 
   <properties>
+    <artifactrepo.url>optimizely-maven</artifactrepo.url>
     <targetJavaVersion>1.8</targetJavaVersion>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>${targetJavaVersion}</maven.compiler.target>
@@ -205,7 +206,25 @@
     </plugins>
   </reporting>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>s3-remote-repository-snapshot</id>
+      <url>s3://{artifactrepo.url}/snapshot</url>
+    </snapshotRepository>
+    <repository>
+      <id>s3-remote-repository-release</id>
+      <url>s3://{artifactrepo.url}/release</url>
+    </repository>
+  </distributionManagement>
+
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven.wagons</groupId>
+        <artifactId>maven-s3-wagon</artifactId>
+        <version>1.2.1</version>
+      </extension>
+    </extensions>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -217,6 +236,12 @@
               <phase>none</phase>
             </execution>
           </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
         </plugin>
 
         <plugin>
@@ -366,6 +391,14 @@
           </configuration>
       </plugin>
 
+      <!-- disable gpg sign -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
 
       <plugin>
         <!-- Override source and target from the ASF parent -->
@@ -513,11 +546,10 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
 
-  <profiles>
+  <!--profiles>
     <profile>
       <id>update-github-site</id>
       <reporting>
@@ -588,5 +620,5 @@
         <thrift.version>0.9.0</thrift.version>
       </properties>
     </profile>
-  </profiles>
+  </profiles-->
 </project>

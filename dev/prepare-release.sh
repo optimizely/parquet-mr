@@ -38,7 +38,7 @@ new_development_version="$release_version-SNAPSHOT"
 
 tag="apache-parquet-$release_version-rc$2"
 
-mvn release:clean
-mvn release:prepare -Dtag="$tag" "-DreleaseVersion=$release_version" -DdevelopmentVersion="$new_development_version"
+mvn release:clean -X
+mvn release:prepare -Dtag="$tag" "-DreleaseVersion=$release_version" -DdevelopmentVersion="$new_development_version" -X
 
 echo "Finish staging binary artifacts by running: mvn release:perform"
